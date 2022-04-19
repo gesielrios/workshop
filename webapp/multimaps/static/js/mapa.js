@@ -18,7 +18,29 @@ let mapa = L.map(mapaContainer, {
     layers: [streets]
 });
 
+//Markers for Events with clusters
+var conflitoMarkerClusterGroup = L.markerClusterGroup();
+var conflitosGeoJson = L.geoJson(conflitosList, {
+    onEachFeature: (feature, layer) => {
+        let popupContent = feature.properties.popup_content;
+        layer.bindPopup(popupContent);
+        conflitoMarkerClusterGroup.addLayer(layer);
+    },
+    pointToLayer: (feature,latlng) => {
+        return L.marker(latlng, {
+            icon: L.AwesomeMarkers.icon({
+                icon: "circle", 
+                prefix: "fa", 
+                markerColor: "red"
+            })
+        });
+    }
+});
+
+mapa.addLayer(conflitoMarkerClusterGroup);
+
 var overlays = {
+    "Conflitos": conflitoMarkerClusterGroup,
 };
 
 L.control.layers(
