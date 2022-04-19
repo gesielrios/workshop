@@ -1,0 +1,44 @@
+html {
+    height: 100%;
+    min-height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+footer {
+    margin-top: auto;
+    margin-bottom: 2px;
+    text-align: center;
+}
+
+.box-shadow { 
+    box-shadow: 0 1.25rem .75rem rgba(0, 0, 0, .05); 
+}
+
+.callout {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  border-left-color: #007bff;
+}
+
+.callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+.center-area {
+  display: flex;
+  align-items: center;
+  height:70vh;
+}

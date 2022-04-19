@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="bg-light rounded p-5 mt-5">
+        <div class="container">
+            <h1 class="display-4">
+                <img src="{% static 'images/logo.png' %}" width="231" height="120">
+                <strong>MultiMapas</strong>
+            </h1>
+            <p class="lead">SIG-WEB com o objetivo de facilitar a organização e interpretação visual de informações georreferenciadas.</p>
+            <hr class="my-4">
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">
+                Acessar Mapa »</a>
+            </p>
+        </div>
+    </div>
+{% endblock content %}
