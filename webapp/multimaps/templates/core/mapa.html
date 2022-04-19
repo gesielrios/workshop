@@ -59,6 +59,11 @@
 
     <script type="text/javascript">
         var conflitosList = JSON.parse('{{ conflitos_geojson|safe }}');
+        var eventosClimaticosList = JSON.parse('{{ eventos_climaticos_geojson|safe }}');
+        var fomesList = JSON.parse('{{ fomes_geojson|safe }}');
+        var pestesList = JSON.parse('{{ pestes_geojson|safe }}');
+
+        var filtroUrl = "{% url 'filtro' %}";
     </script>
     <script type="module" src="{% static 'js/mapa.js' %}"></script>
 {% endblock extra_js %}

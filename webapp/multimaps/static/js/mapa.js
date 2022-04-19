@@ -10,7 +10,7 @@ let streets  = L.tileLayer(mbUrl, {
     attribution: mbAttr
 });
 
-const mapaContainer = document.getElementById('mapa');
+var mapaContainer = document.getElementById('mapa');
 
 let mapa = L.map(mapaContainer, {
     center: [40.847, -2.878],
@@ -37,10 +37,70 @@ var conflitosGeoJson = L.geoJson(conflitosList, {
     }
 });
 
+var eventoClimaticoMarkerClusterGroup = L.markerClusterGroup();
+var eventosClimaticosGeoJson = L.geoJson(eventosClimaticosList, {
+    onEachFeature: (feature, layer) => {
+        let popupContent = feature.properties.popup_content;
+        layer.bindPopup(popupContent);
+        eventoClimaticoMarkerClusterGroup.addLayer(layer);
+    },
+    pointToLayer: (feature,latlng) => {
+        return L.marker(latlng, {
+            icon: L.AwesomeMarkers.icon({
+                icon: "circle", 
+                prefix: "fa", 
+                markerColor: "blue"
+            })
+        });
+    }
+});
+
+var fomeMarkerClusterGroup = L.markerClusterGroup();
+var fomesGeoJson = L.geoJson(fomesList, {
+    onEachFeature: (feature, layer) => {
+        let popupContent = feature.properties.popup_content;
+        layer.bindPopup(popupContent);
+        fomeMarkerClusterGroup.addLayer(layer);
+    },
+    pointToLayer: (feature,latlng) => {
+        return L.marker(latlng, {
+            icon: L.AwesomeMarkers.icon({
+                icon: "circle", 
+                prefix: "fa", 
+                markerColor: "black"
+            })
+        });
+    }
+});
+
+var pesteMarkerClusterGroup = L.markerClusterGroup();
+var pestesGeoJson = L.geoJson(pestesList, {
+    onEachFeature: (feature, layer) => {
+        let popupContent = feature.properties.popup_content;
+        layer.bindPopup(popupContent);
+        pesteMarkerClusterGroup.addLayer(layer);
+    },
+    pointToLayer: (feature,latlng) => {
+        return L.marker(latlng, {
+            icon: L.AwesomeMarkers.icon({
+                icon: "circle", 
+                prefix: "fa", 
+                markerColor: "orange"
+            })
+        });
+    }
+});
+
 mapa.addLayer(conflitoMarkerClusterGroup);
+mapa.addLayer(eventoClimaticoMarkerClusterGroup);
+mapa.addLayer(fomeMarkerClusterGroup);
+mapa.addLayer(pesteMarkerClusterGroup);
 
 var overlays = {
     "Conflitos": conflitoMarkerClusterGroup,
+    "Eventos Climáticos": eventoClimaticoMarkerClusterGroup,
+    "Fomes": fomeMarkerClusterGroup,
+    "Pestes": pesteMarkerClusterGroup
 };
 
 L.control.layers(
@@ -48,3 +108,29 @@ L.control.layers(
     overlays, 
     {"autoZIndex": true, "collapsed": true, "position": "topright"}
 ).addTo(mapa);
+
+const form = document.getElementById("form-filter");
+
+form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    let periodo = form.elements["periodo"].value;
+    let url = filtroUrl + "?periodo=" + periodo;
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        conflitoMarkerClusterGroup.clearLayers();
+        conflitosGeoJson.addData(JSON.parse(data.conflitos_geojson));
+
+        eventoClimaticoMarkerClusterGroup.clearLayers();
+        eventosClimaticosGeoJson.addData(JSON.parse(data.eventos_climaticos_geojson));
+
+        fomeMarkerClusterGroup.clearLayers();
+        fomesGeoJson.addData(JSON.parse(data.fomes_geojson));
+
+        pesteMarkerClusterGroup.clearLayers();
+        pestesGeoJson.addData(JSON.parse(data.pestes_geojson));
+        
+    });
+});

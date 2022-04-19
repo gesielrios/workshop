@@ -1,6 +1,7 @@
 import os
 
 from django.contrib.gis.utils import LayerMapping
+
 from .models import Conflito, Climatico, Fome, Peste
 
 evento_mapping = {
@@ -23,7 +24,22 @@ evento_mapping = {
 }
 
 conflitos_shp_path = os.path.abspath(os.path.join('../../data/shp', 'conflitos.shp'))
+eventos_climaticos_shp_path = os.path.abspath(os.path.join('../../data/shp', 'eventos_climaticos.shp'))
+fome_shp_path = os.path.abspath(os.path.join('../../data/shp', 'fome.shp'))
+peste_shp_path = os.path.abspath(os.path.join('../../data/shp', 'peste.shp'))
 
-def conflito_mapping(verbose=True):
-    lm = LayerMapping(Conflito, conflitos_shp_path, evento_mapping)
-    lm.save(strict=True, verbose=verbose)
+def conflitos_mapping(verbose=True):
+    conflitos_lm = LayerMapping(Conflito, conflitos_shp_path, evento_mapping)
+    conflitos_lm.save(strict=True, verbose=verbose, progress=True)
+
+def eventos_climaticos_mapping(verbose=True):
+    eventos_climaticos_lm = LayerMapping(Climatico, eventos_climaticos_shp_path, evento_mapping)
+    eventos_climaticos_lm.save(strict=True, verbose=verbose, progress=True)
+
+def fome_mapping(verbose=True):
+    fome_lm = LayerMapping(Fome, fome_shp_path, evento_mapping)
+    fome_lm.save(strict=True, verbose=verbose, progress=True)
+
+def peste_mapping(verbose=True):
+    peste_lm = LayerMapping(Peste, peste_shp_path, evento_mapping)
+    peste_lm.save(strict=True, verbose=verbose, progress=True)
