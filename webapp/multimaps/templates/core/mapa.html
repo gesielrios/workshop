@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
+    <link rel="stylesheet" href="{% static 'css/mapa.css' %}" />
+{% endblock extra_css %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="callout">
+                    <h4>Filtros</h4>
+                </div>
+                <form id="form-filter" class="row g-3">
+                    {% csrf_token %}
+                    <div class="col">
+                        <label class="form-label">Período</label>
+                        <select class="form-select" aria-label="Default select example" id="periodo" name="periodo">
+                            <option selected disabled value="">Selecione...</option>
+                            <option value="">Todos</option>
+                            <option value="1276-1300">1276-1300</option>
+                            <option value="1301-1325">1301-1325</option>
+                            <option value="1326-1350">1326-1350</option>
+                            <option value="1351-1375">1351-1375</option>
+                            <option value="1376-1400">1376-1400</option>
+                            <option value="1401-1425">1401-1425</option>
+                            <option value="1426-1450">1426-1450</option>
+                            <option value="1451-1475">1451-1475</option>
+                            <option value="1476-1500">1476-1500</option>                            
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Aplicar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-9 rounded">
+                <div id="mapa" class="mapa" style="min-height: calc(75vh - 60px);"></div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block extra_js %}
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="crossorigin=""></script>
+    <script type="module" src="{% static 'js/mapa.js' %}"></script>
+{% endblock extra_js %}

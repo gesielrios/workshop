@@ -9,3 +9,20 @@ let streets  = L.tileLayer(mbUrl, {
     zoomOffset: -1, 
     attribution: mbAttr
 });
+
+const mapaContainer = document.getElementById('mapa');
+
+let mapa = L.map(mapaContainer, {
+    center: [40.847, -2.878],
+    zoom: 6,
+    layers: [streets]
+});
+
+var overlays = {
+};
+
+L.control.layers(
+    {}, 
+    overlays, 
+    {"autoZIndex": true, "collapsed": true, "position": "topright"}
+).addTo(mapa);
